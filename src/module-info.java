@@ -6,4 +6,5 @@
  *
  */
 module javaChat
-    {}
+    {
+    requires java.desktop;}
