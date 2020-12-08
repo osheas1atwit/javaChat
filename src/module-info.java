@@ -7,4 +7,5 @@
  */
 module javaChat
     {
-    requires java.desktop;}
+    requires java.desktop;
+    requires java.logging;}

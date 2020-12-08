@@ -1,44 +1,44 @@
 package javaChat;
 
 import java.net.* ;
-
-import javax.swing.JFrame ;
-
 import java.io.* ;
 
-public class ChatClient
+/**
+ * 
+ *
+ * @author osheas1
+ * @version 1.0.0 2020-12-07 Initial implementation
+ *
+ */
+public class ClientGUI
     {
 
-    /**
-     * 
-     *
-     * @param args
-     * @throws IOException
-     */
     public static void main( String[] args ) throws IOException
         {
         
-        // Get server IP
-        BufferedReader keyboard = new BufferedReader( new InputStreamReader( System.in ) ) ;
-        System.out.print( "\nPlease enter the IP of the desired server: " ); // GUI: IP BOX
-        
-        String serverIP = keyboard.readLine() ;
+        UserInterface login = new UserInterface() ;
+        login.setVisible( true ); 
+
+        boolean done = false ;
+        while( !done ) 
+            {
+            done = login.isDone() ;          
+            System.out.print("");
+            }
+       
+        String ip = login.getIP() ;
+        String username = login.getUsername() ;
         
         // Open your connection to a server, at port 6789
-        Socket socket = new Socket( serverIP , 6789 ) ;
+        Socket socket = new Socket( ip , 6789 ) ;
         
         // Create communication streams
         DataInputStream dataStreamIn = new DataInputStream( socket.getInputStream() ) ;    
-        DataOutputStream dataStreamOut = new DataOutputStream( socket.getOutputStream() ) ;
-       
-        // Establish connection, make user-name
-        System.out.print( "\nConnection established,\nPlease enter a username: " ) ;       
-        String username = keyboard.readLine() ;
-        dataStreamOut.writeUTF( username ) ;
+        DataOutputStream dataStreamOut = new DataOutputStream( socket.getOutputStream() ) ;      
+
+        BufferedReader keyboard = new BufferedReader( new InputStreamReader( System.in ) ) ;
         
-        /////////////////////////
-        //// Program Running ////
-        /////////////////////////
+        dataStreamOut.writeUTF( username ) ;
         
         // Thread for sending messages
         Thread sendMessage = new Thread(new Runnable()
@@ -89,6 +89,9 @@ public class ChatClient
         // Begin threads
         sendMessage.start() ;
         receiveMessage.start() ;
+        
+
         }
+
     }
-	// end class ChatClient
+	// end class ClientGUI
